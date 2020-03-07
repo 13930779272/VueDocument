@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>v-bind</title>
+  <style>
+  .red1{
+    color: red;
+  }
+  .active{
+    color:blue
+  }
+  .active1{
+    color: brown;
+  }
+  .fnt{
+    font-size: 20px;
+  }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- 图片的src自定义 -->
+    <button @click="num=0">第一张图片</button>
+    <button @click="num=1">第二张图片</button>
+    <img v-bind:src="ary[num]">
+    <!-- 循环图片 -->
+    <!-- <img v-for="(val,key) in ary" :src="val" alt="" srcset=""> -->
+
+
+    <!-- :style="{属性名:属性值（可以为数据）}" -->
+    <p :style="{fontSize: isSize?size+'px':''}">看美女</p>
+    <!-- :style="[{属性名1:属性值1（可以为数据）},{属性名2:属性值2（可以为数据）}]" 也可以是变量是一个对象类型，可以进行表达式运算-->
+    <p :style="[isObj?objA:'',{color:'green'}]">看美女绿</p>
+    <p :style="font">style放一个变量</p>
+
+
+    <!-- 变量为data的数据，是一个对象 -->
+    <p :class="color1">放一个变量，变量为对象属性名为class值为布尔值</p>
+    <!-- :class="{类名:布尔值}" -->
+    <p :class="{active:true}">放对象对象里面的属性名为class值为布尔值</p>
+    <!-- 数组里为data的数据，数据存的是对应的class名，可以进行表达式运算 -->
+    <p :class="[active1,isactive?fnt:'',]">放数组</p>
+
+
+    <!--  v-bind="{data:1}"  使用v-bind=对象（批量设置属性） -->
+    <p v-bind="{data:1,dataSet:2}">批量自定义属性</p>
+    <!-- :自定义属性名=“属性值” -->
+    <p :data="1">自定义一个属性</p>
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    /*
+        如果说属性需要**动态操作**，那么就使用v-bind:xx
+        缩写为冒号
+    */
+    let v = new Vue({
+      el:'#app',
+      data:{
+        num:0,
+        ary:['./imgs/1.jpg','./imgs/2.jpg'],
+        size:50,
+        objA:{
+          fontSize:'50px'
+        },
+        color1:{
+          // 类名：布尔值是否加这个calss
+          red1:true
+        },
+        active1:'active1',
+        fnt:'fnt',
+        isactive:true,
+        font:{
+          fontSize:'30px',
+          color:'red'
+        },
+        isObj:true,
+        isSize:true
+      },
+      
+    })
+  </script>
+</body>
+</html>
