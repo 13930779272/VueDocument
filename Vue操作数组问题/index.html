@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue操作数组的问题</title>
+</head>
+<body>
+  <div id="app">
+    <button @click='add'>点击添加</button>
+    <button @click='changel'>点击改变length</button>
+    <ul>
+      <li v-for="(item,i) in ary" :key="i">{{item}}</li>
+    </ul>
+  </div>
+  <script src="../指令//vue.js"></script>
+  <script>
+    let vm = new Vue({
+      el:'#app',
+      data:{
+        ary:[1,2,3,4,5]
+      },
+      methods: {
+        add(){
+          /* 
+            当我们点击按钮时实际数组已经变化了，但是视图并不会更新，vue并不会检测到这种数组的变动，因为通过MVVM的源码可以知道，对象属性必须是已经存在的才会转为响应式。
+              Vue.set(vm.items, indexOfItem, newValue)
+              vm.$set(vm.items, indexOfItem, newValue) 同样的效果
+              vm.items.splice(indexOfItem, 1, newValue)
+
+          */
+          // this.ary[0] = 2
+          // Vue.set(this.ary,0,2)
+          // vm.$set(this.ary,0,2)
+          // vm.ary.splice(0,1,2)
+          console.log(this.ary)
+        },
+        changel(){
+          /* 
+            改变length同样也检测不到
+              vm.items.splice(newLength)
+          */
+          // this.ary.length = 6
+          vm.ary.splice(4)
+          console.log(vm.ary.length)
+        }
+      },
+    })
+
+
+
+    let ary = [1,2,34]
+    ary[0] = 5
+    // 此时数组已经被改变了
+    console.log(ary) // [5, 2, 34]
+    ary.length = 5
+    console.log(ary)
+
+    console.dir(Array)
+  </script>
+</body>
+</html>
