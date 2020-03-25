@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /* 
+      输入: "Let's take LeetCode contest"
+      输出: "s'teL ekat edoCteeL tsetnoc" 
+    */
+   let str = "Let's take LeetCode contest"
+    function  fn(str){
+      let ary = []
+      str.split(' ').forEach( item => {
+        // console.log(item.split('').reverse().join(''))
+        ary.push(item.split('').reverse().join(''))
+      })
+      console.log(ary.join(' '))
+      let newStr = ary.join(' ')
+      return newStr
+    }
+    fn(str)
+    console.log()
+  </script>
+</body>
+</html>

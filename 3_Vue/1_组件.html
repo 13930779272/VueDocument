@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>组件、模板组件</title>
+</head>
+
+<body>
+  <div id="app">
+    <aaa></aaa>
+    <bbb></bbb>
+    <temp></temp>
+  </div>
+  <!-- 模板组件 必须时template标签，内部填写元素-->
+  <template id="temp">
+    <!-- 组件顶层只能有一个元素 -->
+      <div>
+        <button>{{str}}{{num}}</button>
+        <div>{{str2}}</div>
+      </div>
+  </template>
+  <script src="./vue.js"></script>
+  <script>
+    /* 
+      组件的顶层只能有一个元素
+      模板组件更有利于开发，不用写很多的模板字符串，结构更清晰
+    */
+    // 组件三
+    const ccc = {
+      template: `<div>{{str3}}</div>`,
+      data() {
+        return {
+          str3: '子组件三'
+        }
+      }
+    }
+
+    // 组件一
+    const aaa = {
+      template: `<div>{{str}}<ccc></ccc><bbb></bbb></div>`,
+      data() {
+        return {
+          str: '子组件一'
+        }
+      },
+      // 局部注册组件只能在局部用，在哪注册的在哪用
+      components: {
+        ccc
+      }
+    };
+
+
+
+
+
+    // 组件二
+    const bbb = {
+      template: `<button @click="fn(str1)">按钮二</button>`,
+      data() {
+        return {
+          str1: '子组件二'
+        }
+      },
+      methods: {
+        fn(val) {
+          console.log(val)
+        }
+      },
+
+    }
+
+    // 模板组件
+    const temp = {
+      // 模板id
+      template:'#temp',
+      data(){
+        return {
+          str:'我是模板组件',
+          num:1,
+          str2:'模板DIV'
+        }
+      }
+    }
+
+    // 全局注册的组件在哪都可以用
+    Vue.component('aaa', aaa);
+    Vue.component('bbb', bbb)
+    // 模板组件
+    Vue.component('temp',temp)
+
+
+    let v = new Vue({
+      el: '#app',
+
+    });
+  </script>
+</body>
+
+</html>

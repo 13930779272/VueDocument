@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>computed</title>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" v-model="val">
+    {{val.split('').reverse().join('')}}
+    <hr>
+    <!-- 翻转函数 -->
+    <!-- {{reve()}} -->
+    <!-- 计算属性的方法 -->
+    <!-- {{reve}} -->
+    <!-- 局部过滤器 -->
+    <!-- {{val | reve}} -->
+    <!-- 全局过滤器 -->
+    {{val | reve | reve1}}
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    /* 
+      computed:计算属性对数据进行二次处理
+      管道符：也是对数据进行二次处理
+        局部注册：
+          filters:{
+            fn(val管道符之前的值){
+              return 基于管道符之前的值进行二次处理
+            }
+          }
+        全局注册：
+          Vue.filter('名字',function(val管道符之前的值){
+            return 基于管道符之前的值进行二次处理
+          })
+
+        全局注册了之后，只要是当前Vue实例下的所有组件都能享受到这个全局注册的过滤器。
+        局部注册，只有当前这个组件才能享受。
+        注册全局的过滤器要写到new Vue的上方
+        当全局过滤器和局部过滤器**同时同名**存在的情况下局部过滤器的优先级高
+    */
+    // 注册全局过滤器
+    Vue.filter('reve1', function (val) {
+      return val.split('').reverse().join('')
+    })
+
+
+    let v = new Vue({
+      el: '#app',
+      data: {
+        val: '祝大家元旦快乐'
+      },
+      // 调用翻转函数
+      // methods: {
+      //   reve(){
+      //     return this.val.split('').reverse().join('')
+      //   }
+      // },
+      // 计算属性
+      // computed: {
+      //   reve(){
+      //     return this.val.split('').reverse().join('')
+      //   }
+
+      // },
+
+      // 注册局部过滤器
+      filters: {
+        reve(val) {
+          return val.split('').reverse().join('')
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

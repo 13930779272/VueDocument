@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>v-on</title>
+  <style>
+    #qq {
+      position: absolute;
+      top: 95%;
+      left: 0;
+    }
+
+    #xx {
+
+      width: 300px;
+      height: 500px;
+      border: solid 1px #000000;
+      position: relative;
+      overflow: auto;
+    }
+
+    #boo {
+      width: 200px;
+      height: 200px;
+      background: yellow;
+    }
+
+    #boo1 {
+      width: 100px;
+      height: 100px;
+      background: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="box">
+    <!-- 事件函数 -->
+    <!-- <input type="text" @input="change($event)" /> -->
+
+    <!-- 模拟短信发送 -->
+    <div id="xx">
+      <!-- 消息 -->
+      <ul style=" list-style: none;">
+        <li v-for="(val, key) in ary">{{val}}</li>
+      </ul>
+      <div id="qq">
+        <!-- 输入框 -->
+        <input type="text" v-model="val" @keyup.enter="add">
+        <!-- 点击发送 -->
+        <button @click="add">发送</button>
+      </div>
+
+
+      <div id="boo" @click="click1">
+        <!-- stop阻止冒泡 -->
+        <div id="boo1" @click.stop="click2"></div>
+      </div>
+
+      <!-- 阻止默认事件 -->
+      <input type="text" @mousedown.prevent>
+
+      <!-- 点击只触发一次 -->
+      <input type="text" @click.once="ff">
+    </div>
+
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    let v = new Vue({
+      el: '#box',
+      data: {
+        val: '',
+        ary: ['11111']
+      },
+      methods: {
+        change(ev) {
+          // 调用时不加括号就默认第一个参数为事件函数
+          //*** 如果传了参还想拿到事件对象，需要在模板中的事件函数内传一个$event
+          console.log(ev)
+        },
+        add() {
+          this.ary.push(this.val)
+          this.val = ''
+        },
+        click1() {
+          console.log(1)
+        },
+        click2() {
+          console.log(2)
+          // ev.cancelBubble = true;
+          // ev.stopPropagation();
+        },
+        ff() {
+          console.log(1)
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>

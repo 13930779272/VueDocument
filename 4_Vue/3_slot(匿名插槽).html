@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>slot(匿名插槽)</title>
+  <style>
+  #box{
+    width: 100px;
+    height: 100px;
+    background: gold;
+  }
+  #box1{
+    width:100px;
+    height: 100px;
+    background: goldenrod;
+  }
+  
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div>{{str}}</div>
+    <hr>
+    <temp>
+      <div id="box1">hello,world</div>
+    </temp>
+  </div>
+  <template id="temp">
+    <div>
+      <!-- 这是插槽 页面默认显示里面的东西，如果-->
+      <slot>
+        <div id="box">默认插槽:{{str1}}</div>
+      </slot>
+    </div>
+  </template>
+  <script src="./vue.js"></script>
+  <script>
+    /* 
+      插槽：
+        在开发中写什么结构就是什么结构，优点是固定统一缺点是不够灵活
+        就是为了解决不灵活的问题，能够自定义一些组件，能够替换之前默认的配置
+      匿名插槽:
+        子组件中定义slot
+        父组件中给调用的子组件双标签内填入结构
+        这个时候slot就被填入结构覆盖
+      插槽：
+        匿名插槽、具名插槽、作用域插槽
+    */
+    const temp = {
+      template:'#temp',
+      data(){
+        return {
+          str1:'这是子组件插槽',
+          str2:'这是自己定义的'
+        }
+      }
+    }
+
+    let v = new Vue({
+      el:'#app',
+      components:{
+        temp,
+      },
+      data:{
+        str:'这是父组件'
+      }
+    })
+  
+  
+  </script>
+</body>
+
+</html>

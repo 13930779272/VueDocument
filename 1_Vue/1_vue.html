@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>点击收缩</title>
+  <style>
+    #box1,
+    .box2 {
+      width: 100px;
+      height: 100px;
+      border: 1px solid red;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="box">
+    <!-- 文本 v-text="str" -->
+    <div v-text="name"></div>
+    <div v-text="str"></div>
+    <!-- html v-html="html" -->
+    <p v-html="str"></p>
+    <button @click="click">{{title}}</button>
+    <!-- v-show="布尔值"  操作的是样式-->
+    <!-- <div id="box1" v-show="b"></div> -->
+    <!-- v-if="布尔值" ：操作的是DOM不会渲染 -->
+    <div id="box1" v-if="b"></div>
+
+    <!-- 通过点击来控制b1 进行取反的操作-->
+    <button @click="b1=!b1">{{title}}</button>
+    <div v-if="b1" class="box2"></div>
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    let v = new Vue({
+      el: '#box',
+      data: {
+        name: 'liuyuepeng',
+        str: `<p>这是个标签</p>`,
+        num: 1,
+        b: true,
+        b1: true,
+        title: '点击收起'
+      },
+      methods: {
+        click() {
+          this.b = !this.b
+          this.title = `${this.b?'点击收起':'点击显示'}`
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

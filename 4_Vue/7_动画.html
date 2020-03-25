@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>动画</title>
+  <style>
+    #box {
+      width: 100px;
+      height: 100px;
+      background: goldenrod;
+    }
+
+    #box1 {
+      width: 100px;
+      height: 100px;
+      background: gold;
+    }
+
+    /* 默认运动都是n-开头的 */
+    /* 初始位置 */
+    .v-enter,
+    .v-leave-to {
+      opacity: 0;
+      transform: translateX(300px);
+    }
+
+    /* 运动过程 */
+    .v-enter-active,
+    .v-leave-active {
+      transition: .8s;
+    }
+
+    /* 结束位置 */
+    .v-enter-to,
+    .v-leave {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* 自定义运动 */
+    .z-enter,
+    .z-leave-to {
+      opacity: 0;
+      transform: translateY(300px);
+    }
+
+    .z-enter-active,
+    .z-leave-active {
+      transition: .8s;
+    }
+
+    .z-enter-to,
+    .z-leave {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="onoff=!onoff">默认按钮</button>
+    <transition>
+      <temp v-show="onoff"></temp>
+    </transition>
+    <hr>
+    <button @click="onoff1=!onoff1">自定义按钮</button>
+    <!-- 可以设置一个name属性，让我们能够自定义css动画 把v改成name的值就可以了 -->
+    <transition name="z">
+      <temp1 v-show="onoff1"></temp1>
+    </transition>
+  </div>
+  <template id="temp">
+    <div id="box">这是默认运动</div>
+  </template>
+  <template id="temp1">
+    <div id="box1">这是自定义运动</div>
+  </template>
+  <script src="./vue.js"></script>
+  <script>
+    const temp = {
+      template: "#temp"
+    }
+    const temp1 = {
+      template: "#temp1"
+    }
+    new Vue({
+      el: '#app',
+      data: {
+        onoff: false,
+        onoff1: false
+      },
+      components: {
+        temp,
+        temp1
+      }
+    })
+  </script>
+</body>
+
+</html>

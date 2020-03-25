@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>子级拿数据变成自己的</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 当父级调用函数不影响子级 -->
+    <button @click="add">{{num}}</button>
+    <hr>
+    <!-- 同步父级函数add2 -->
+    <temp :fsj="num" @child="add2"></temp>
+  </div>
+  <template id="temp">
+    <button @click="add1">{{cnum}}</button>
+  </template>
+  <script src="./vue.js"></script>
+  <script>
+    const temp = {
+      template: '#temp',
+      props: {
+        fsj: {
+          type: Number
+        }
+      },
+      // 把从父级拿来的数据变成了自己的
+      data() {
+        return {
+          cnum: this.fsj
+        }
+      },
+
+      methods: {
+        
+        add1() {
+          // 自己的数据做的操作
+          this.cnum += 2
+          // 同步父级的函数并传了一个参数
+          this.$emit('child', this.cnum)
+        }
+      },
+
+    }
+
+
+    let v = new Vue({
+      el: '#app',
+      data: {
+        num: 0
+      },
+      components: {
+        temp
+      },
+      methods: {
+        add() {
+          this.num ++
+        },
+        // val为子级传过来的参数
+        add2(val){
+          // 当子级改变的时候父级也跟着改变
+          this.num = val
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>

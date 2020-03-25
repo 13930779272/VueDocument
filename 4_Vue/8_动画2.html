@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>动画2</title>
+  <style>
+    #box {
+      width: 100px;
+      height: 100px;
+      background: goldenrod;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="onoff=!onoff">按钮</button>
+    <hr>
+    <transition @before-enter="beforeEnter" @enter="enter" @after-Enter="afterEnter">
+      <temp v-show="onoff"></temp>
+    </transition>
+
+  </div>
+
+  <template id="temp">
+    <div id="box"></div>
+  </template>
+  <script src="./vue.js"></script>
+  <script>
+    const temp = {
+      template: "#temp"
+    }
+    new Vue({
+      el: "#app",
+      data: {
+        onoff: false
+      },
+      components: {
+        temp
+      },
+      methods: {
+        beforeEnter(ele) {
+          ele.style.opacity = '1';
+          ele.style.transform = 'translate(0,0)'
+        },
+        enter(ele,done) {
+          ele.offsetTop;
+          ele.style.transition = '.8s';
+          ele.style.transform = 'translate(400px,400px)'
+          // 当只用 JavaScript 过渡的时候，在 enter 和 leave 中必须使用 done 进行回调。否则，它们将被同步调用，过渡会立即完成。
+          done()
+        },
+        afterEnter(ele) {
+          ele.style.opacity = '0.2';
+          this.onoff = false
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

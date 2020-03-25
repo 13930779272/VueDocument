@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>拖拽</title>
+  <style>
+    #box1 {
+      width: 100px;
+      height: 100px;
+      background: red;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div id="box1" @mousedown="down"></div>
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    let v = new Vue({
+      el: '#app',
+      data: {
+        disX: 0,
+        disY: 0,
+        onOff: false
+      },
+      methods: {
+        down(ev) {
+          // console.log(ev)
+          let {
+            target,
+            target: {
+              offsetLeft,
+              offsetTop
+            },
+            pageX,
+            pageY
+          } = ev;
+          this.disX = pageX - offsetLeft;
+          this.disY = pageY - offsetTop;
+          let that = this;
+          // 必须在document上进行move和up
+          document.onmousemove = function (ev) { //onmousemove
+            console.log(1)
+            target.style.left = ev.pageX - that.disX + 'px'
+            target.style.top = ev.pageY - that.disY + 'px'
+          }
+          document.onmouseup = function () {
+            document.onmouseup = document.onmousemove = null;
+          }
+        },
+        // move(ev) {
+        //   const {
+        //     target,
+        //     target: {
+        //       offsetLeft,
+        //       offsetTop
+        //     },
+        //     pageX,
+        //     pageY
+        //   } = ev;
+        //   target.style.left = pageX - this.disX + 'px';
+        //   target.style.top = pageY - this.disY + 'px';
+        // },
+        // up() {
+        //   this.onoff = false;
+        // }
+      }
+    })
+  </script>
+</body>
+
+</html>

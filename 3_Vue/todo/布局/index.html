@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>todos</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+
+<body>
+    <section class="todoapp">
+        <div>
+            <header class="header">
+                <h1>todos</h1>
+                <input class="new-todo" placeholder="请输入内容" @keyup.13="add" v-model.trim="val">
+            </header>
+            <section class="main">
+                <input class="toggle-all" type="checkbox" v-model="alls" @click="qx">
+                <ul class="todo-list">
+                    <li v-for="(item, index) in newAry"
+                        :class="{completed:item.checked,editing:!item.onoff,active:item.onoff}"
+                        :key="item.id"
+                        @dblclick="shuangji(index)">
+                        <div class="view">
+                            <input class="toggle" type="checkbox" v-model="item.checked">
+                            <label>{{item.txt}}</label>
+                            <button class="destroy" @click="del(item.id)"></button>
+                        </div>
+                        <input v-show="!item.onoff" class="edit" v-model="item.txt" @keyup.27="xiugai(index)"
+                            v-model="val1" />
+                    </li>
+                </ul>
+            </section>
+            <footer class="footer" v-show="ary.length">
+                <span class="todo-count">
+                    <strong>{{all}}</strong>
+                    <span>条未选中</span>
+                </span>
+                <ul class="filters">
+                    <li>
+                        <a href="#/all" @click="xuanze='quanbu'" :class="{selected:xuanze === 'quanbu'}">全部</a>
+                    </li>
+                    <li>
+                        <a href="#/unchecked" @click="xuanze='weixuan'" :class="{selected:xuanze === 'weixuan'}">未选中</a>
+                    </li>
+                    <li>
+                        <a href="#/checked" @click="xuanze='yixuan'" :class="{selected:xuanze === 'yixuan'}">已选中</a>
+                    </li>
+                </ul>
+            </footer>
+        </div>
+    </section>
+    <script src="../../vue.js"></script>
+    <script>
+        // editing completed
+        // editing ''
+        // ''
+        //completed
+
+        new Vue({
+            el: '.todoapp',
+            data: {
+                val: '',
+                ary: getData(),
+                xuanze: 'quanbu',
+                val1: ''
+            },
+            methods: {
+                add() {
+                    this.ary.unshift({
+                        id: Date.now(),
+                        txt: this.val,
+                        checked: false,
+                        onoff: true
+                    });
+                    this.val = ''
+                },
+                del(index) {
+                    this.ary = this.ary.filter(item => item.id !== index);
+                },
+                shuangji(index) {
+                    this.ary[index].onoff = false;
+                    // this.val1 = this.ary[index].txt //!!!!
+                    this.ary[index].txt = this.ary[index].txt
+                },
+                qx(ev) {
+                    let {
+                        target
+                    } = ev;
+                    this.ary.forEach(item => item.checked = target.checked)
+                },
+                xiugai(index) {
+                    this.ary[index].onoff = true;
+                    // this.ary[index].txt = this.val1;
+                    this.val1 = ''
+                }
+            },
+            watch: {
+                ary: {
+                    handler(val, oldVal) {
+                        localStorage.setItem('Data', JSON.stringify(this.ary));
+                    },
+                    deep: true
+                },
+            },
+            computed: {
+                all() {
+                    return this.ary.filter(item => item.checked === false).length
+                },
+                alls: {
+                    get() {
+                        return this.ary.length && this.ary.every(item => item.checked === true)
+                    },
+                    set() {
+                        // console.log(this.alls)
+                        // this.ary.forEach(item => item.checked = !this.alls)
+                        // return this.alls
+                    },
+                },
+                newAry() {
+                    return this.ary.filter(item => {
+                        switch (this.xuanze) {
+                            case 'quanbu':
+                                return item;
+                            case 'weixuan':
+                                return !item.checked
+                            case 'yixuan':
+                                return item.checked
+                            default:
+                                return item;
+                        }
+                    })
+                }
+
+            },
+        });
+
+        function getData() {
+            let v = localStorage.getItem('Data');
+            return v && JSON.parse(v) || [{
+                    id: 0,
+                    txt: '哈哈',
+                    checked: true,
+                    onoff: true
+                },
+                {
+                    id: 1,
+                    txt: '呵呵',
+                    checked: false,
+                    onoff: true
+                }
+            ]
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue选项卡2</title>
+  <style>
+    .box {
+      width: 200px;
+      height: 100px;
+      border: 1px solid #000;
+    }
+
+    .active {
+      background: yellow;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="box">
+    <!-- 点击的时候更改block的值达到同步的目的 -->
+    <button v-for="(val,key) in arr" @click="fn(key)" :class="{active:key === block}">{{val}}</button>
+    <div class="box" v-for="(val,key) in ary" v-show="block === key">{{val}}</div>
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    let v = new Vue({
+      el: '#box',
+      data: {
+        arr: ['按钮一', '按钮二', '按钮三'],
+        ary: ['1111', '2222', '3333'],
+        block: 0
+      },
+      methods: {
+        fn(num) {
+          this.block = num
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>

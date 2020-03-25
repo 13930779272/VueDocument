@@ -30,6 +30,30 @@ export default {
   deactivated() {
     console.log('deactivated')
   },
+  beforeCreate(){
+    console.log('public-beforeCreate')
+  },
+  created(){
+    console.log('public-created')
+  },
+  beforeMount(){
+    console.log('public-beforeMount')
+  },
+  mounted() {
+    console.log('public-mounted')
+  },
+  beforeUpdate() {
+    console.log('public-beforeUpdate')
+  },
+  updated() {
+    console.log('public-updated')
+  },
+  beforeDestroy() {
+    console.log('public-beforeDestroy')
+  },
+  destroyed() {
+    console.log('public-destroyed')
+  },
 };
 </script>
 

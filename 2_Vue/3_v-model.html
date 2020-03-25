@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>v-model</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 数据绑定，enter事件调用add函数 -->
+    <input type="text" v-model="val" @keyup.13="add">
+    <!-- 点击发送按钮调用函数 -->
+    <button @click='add'>发送</button>
+    <ul>
+      <!-- 循环数组 点击li的时候调用remove函数并把点击的索引值当作实参传进去-->
+      <li v-for="(item, index) in ary" @click="remove(index)">{{item}}</li>
+    </ul>
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    let v = new Vue({
+      el: "#app",
+      // 数组 val
+      data: {
+        val: '',
+        ary: []
+      },
+      // 事件函数都放在methods里
+      methods: {
+        // 添加函数
+        add() {
+          // 把数据放到数组
+          this.ary.unshift(this.val)
+          // 清空输入框
+          this.val = ''
+        },
+        remove(index) {
+          console.log(index)
+          // 过滤数组，把不是传进来的index的索引去掉
+          this.ary = this.ary.filter((item, i) => i !== index)
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>

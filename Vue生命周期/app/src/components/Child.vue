@@ -2,7 +2,6 @@
   <div>
     <input type="text" ref="txt" v-model="val">
     <button @click="add1">发送</button>
-    <button @click="hook">调用hook</button>
   </div>
 </template>
 
@@ -21,19 +20,33 @@
         this.$emit('push',this.val)
         this.val = ''
       },
-      hook(){
-        console.log('调用hook')
-        this.$emit('hook')
-      }
+      
     },
-
+    beforeCreate() {
+      console.log('Child-befoerCreate')
+    },
     // 当DOM挂载完成后触发该钩子
     mounted() {
-      console.log('子组件DOM加载完成')
+      console.log('Child-mounted')
       this.$emit('mount')
     },
     created() {
-      console.log('子组件数据加载完成')
+      console.log('Child-created')
+    },
+    beforeMount() {
+      console.log('Child-beforeMunt')
+    },
+    beforeUpdate() {
+      console.log('Child-befoerUpdate')
+    },
+    updated() {
+      console.log('Child-updated')
+    },
+    beforeDestroy() {
+      console.log('Child-beforeDestroy')
+    },
+    destroyed() {
+      console.log('Child-destroyed')
     },
   }
 </script>

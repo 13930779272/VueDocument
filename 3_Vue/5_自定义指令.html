@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>自定义指令</title>
+</head>
+
+<body>
+  <div id="app">
+    <div v-color="'pink'">
+      {{str}}
+    </div>
+    <hr>
+    <input type="text" value="2131212" v-focus>
+    <temp></temp>
+  </div>
+
+
+  <template id="temp">
+    <div v-size="50" v-color="'red'">2313123213</div>
+  </template>
+  <script src="./vue.js"></script>
+  <script>
+    /*
+      Vue.directive('my-directive', {
+        bind: function () {},
+        inserted: function () {},
+        update: function () {},
+        componentUpdated: function () {},
+        unbind: function () {}
+      })
+    */
+    // 全局自定义指令，哪都可以使用
+    Vue.directive('color', function (ele, val) {
+      console.log(val)
+      ele.style.color = val.value ? val.value : 'green'
+    })
+
+
+    Vue.directive('focus', {
+      // inserted：被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。
+      inserted(ele) {
+        ele.select()
+      }
+    })
+    const temp = {
+      template: '#temp',
+      // 局部自定义指令，只能在这个组件使用
+      directives: {
+        size(ele, val) {
+          // console.log(ele)
+          // console.log(val)
+          ele.style.fontSize = val.value ? val.value + 'px' : "12px"
+        }
+      }
+    }
+
+    let v = new Vue({
+      el: '#app',
+      data: {
+        str: 'vue真***难'
+      },
+      // 注册局部组件
+      components: {
+        temp,
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数据传递</title>
+</head>
+
+<body>
+  <div id="app">
+    <h1>{{str1}}</h1>
+    <button>{{str2}}</button>
+    <hr>
+    <!-- 使用组件 -->
+    <temp v-bind="{'fsj2':str}"></temp>
+  </div>
+  <!-- 定义组件 -->
+  <template id="temp">
+    <div>
+      <h3>{{fsj1}}</h3>
+      <h3>{{fsj2}}</h3>
+    </div>
+
+  </template>
+  <script src="./vue.js"></script>
+  <script>
+    //=>子组件设置PROPS用来接收父组件基于属性传递进来的信息：在PROPS中注册的属性，和DATA一样，也会挂载到实例上 this.title/{{title}}
+    // 1.父组件传递的属性名是kebab-case格式，子组件在注册的时候应该按照camelCase/PasalCase格式来接收和使用；属性名传递的是大写的，其实也是按照小写的来传递的，
+    // 所以PROPS中注册和使用的时候都按照小写的来处理即可；
+    // props: ["title", "aaa"],
+    // 2.注册属性的校验（不符合校验格式的，依然可以在组件中使用，只不过控制台会抛出异常信息）
+
+    // 定义组件
+    const temp = {
+      template: '#temp',
+      // props可以为数组可以为对象，是对象时可以配置属性
+      props: {
+        // 不同的数据配置不同的属性
+        fsj1: {
+          // 指定的数据类型，不是这个数据类型的话就报错
+          type: Number,
+          // 设定默认值没有就走默认
+          default: 10
+        },
+        fsj2: {
+          // 规定该数据是否必须传入
+          required: true,
+          // 给数据加一个条件
+          validator: function (value) {
+            // console.log(value)
+            return /^[\u4e00-\u9fa5]+$/.test(value)
+          }
+        }
+      },
+
+      // 校验简单版
+      // props: {
+      //   title: String,
+      //   aaa: [Number, Array]
+      // },
+    }
+
+
+    let v = new Vue({
+      el: '#app',
+      data: {
+        num: '',
+        str: '数据发达发gh达传递',
+        str1: '父元素',
+        str2: '父级按钮'
+      },
+      // 注册组件
+      components: {
+        temp
+      }
+    })
+  </script>
+</body>
+
+</html>

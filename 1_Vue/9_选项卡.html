@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>VUE选项卡</title>
+  <style>
+    #box div {
+      border: solid 1px #000;
+      width: 200px;
+      height: 100px
+    }
+  </style>
+</head>
+
+<body>
+  <div id="box">
+    <button v-on:click="fn(0)" class="active">按钮</button>
+    <button @click="fn(1)">按钮</button>
+    <button @click="fn(2)">按钮</button>
+    <div v-show="block===0">1111</div>
+    <div v-show="block===1">2222</div>
+    <div v-show="block===2">3333</div>
+    
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    let v = new Vue({
+      el: '#box',
+      data: {
+        block: 0
+      },
+      methods: {
+        fn(num) {
+          v.block = num
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

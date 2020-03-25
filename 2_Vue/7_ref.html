@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ref</title>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="fn">点击</button>
+    <div id="box" ref="boxR">{{val}}</div>
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    /*
+        ref:为了让你快速定位一个元素或者组件
+
+        定义:
+            元素或者组件上添加一个ref的属性即可
+                <div ref="box">
+
+        获取:
+                this.$refs.box
+        
+    */
+    let v = new Vue({
+      el: '#app',
+      data:{
+        val:'1213',
+        ys:''
+      },
+      methods: {
+        fn() {
+          
+          console.log(this.$refs.boxR); //=>获取到的是元素div
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>

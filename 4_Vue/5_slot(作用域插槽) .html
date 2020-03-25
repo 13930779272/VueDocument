@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>slot(作用域插槽)</title>
+</head>
+
+<body>
+  <div id="app">
+    <temp :fsj="ary" v-slot:cdata="childrenData">
+      <!-- vue低版本必须加上template -->
+      <!-- <template v-slot:cdata="childrenData"> -->
+        <h2>我的名字叫:{{childrenData.nn}}</h2>
+        <p>我的id是:{{childrenData.id}}</p>
+        <p>我的年龄是:{{childrenData.age}}</p>
+      <!-- </template> -->
+    </temp>
+  </div>
+  <template id="temp">
+    <div>
+      <ul>
+        <li v-for="(val,key) in fsj">
+          <slot name="cdata" :nn="val.nm" :id="val.id" :age="val.age"></slot>
+        </li>
+      </ul>
+    </div>
+  </template>
+  <script src="./vue.js"></script>
+  <script>
+    /* 
+      作用域插槽
+        在子级的slot中
+            1.定义一个name="唯一个标识符"
+            2.通过v-bind去传入使用的数据
+
+        在父级template中
+            1.v-slot:name标识符 = "自定义的名字"
+                ** v-slot可以缩写为#
+            2.使用自定义的名字.xx
+
+        <slot name="cc" :age="index" >
+
+        <template #cc="cdata">
+            {{cdata.age}}
+        </template>
+    */
+    const temp = {
+      template: "#temp",
+      props: ['fsj']
+    }
+
+    new Vue({
+      el: '#app',
+      data: {
+        ary: [{
+            id: 0,
+            nm: 'tony',
+            age: 18
+          },
+          {
+            id: 1,
+            nm: 'daishui',
+            age: 19
+          },
+          {
+            id: 2,
+            nm: 'hahaah',
+            age: 20
+          }
+        ]
+      },
+      components:{
+        temp
+      }
+    })
+  </script>
+</body>
+
+</html>

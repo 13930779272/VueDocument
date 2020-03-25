@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数据传递</title>
+</head>
+<body>
+  <!-- vue挂靠 -->
+  <div id="app">
+    <button @click="add">{{num}}</button>
+    <!-- 使用模板组件  在子组件添加@child="add"-->
+    <tepm :sj="num" @child="add"></tepm>
+  </div>
+  <!-- 定义模板组件 -->
+  <template id="tep">
+    <!-- <div>{{num1 + '子'}}</div> -->
+    <button @click="add1">{{sj}}</button>
+  </template>
+  <script src="./vue.js"></script>
+  <script>
+    const tepm = {
+      template:'#tep',
+      props:['sj'],
+      data(){
+        return {
+          num1:1     
+        }
+      },
+      methods:{
+        add1(){
+          // 与父级的函数同步
+          this.$emit('child')
+        }
+      }
+    }
+    // 注册模板组件
+    Vue.component('tepm',tepm)
+    let v = new Vue({
+      el:'#app',
+      data:{
+        num:0
+      },
+      methods: {
+        add(){
+          this.num++
+        }
+      },
+    })
+  </script>
+</body>
+</html>

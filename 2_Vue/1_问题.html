@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>问题</title>
+  <style>
+    * {
+      padding: 0px;
+      margin: 0px;
+    }
+
+    #box {
+      width: 100px;
+      height: 100px;
+      background: red;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div id="box" @mousedown="down" :style="{top:T+'px',left:L +'px'}"></div>
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    let v = new Vue({
+      el: '#app',
+      data: {
+        disY: 0,
+        disX: 0,
+        L: 0,
+        T: 0
+      },
+      methods: {
+        down(ev) {
+          let {
+            pageX,
+            pageY,
+            target
+          } = ev;
+          this.disX = pageX - target.offsetLeft;
+          this.disY = pageY - target.offsetTop;
+          let that = this;
+          document.onmousemove = function (ev) {
+              that.move(ev)
+            },
+            document.onmouseup = function () {
+              document.onmousemove = document.onmouseup = null;
+            }
+        },
+        move(ev) {
+          this.L = ev.pageX - this.disX
+          this.T = ev.pageY - this.disY
+        }
+      },
+    })
+
+    /* 
+      setter,getter:
+        钩子函数回调函数，当某个条件成立的时候触发
+    */
+    let obj = {};
+    let num = 0;
+    // 配置value等属性回和getset冲突
+    Object.defineProperty(obj, 'age', {
+      get() {
+        // 当读取age的值的时候触发
+        // return的值就是设置的age的值
+        return num
+      },
+      set(val) {
+        // 当写入age的时候触发
+        // 当写入age的时候做一个补零判断
+        num = toD(val)
+      }
+    });
+    // 补零函数
+    function toD(n) {
+      return n < 10 ? '0' + n : '' + n;
+    };
+    // 触发写
+    obj.age = 5
+    // 触发读
+    console.log(obj.age)
+  </script>
+</body>
+
+</html>

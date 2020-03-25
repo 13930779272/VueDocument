@@ -21,6 +21,9 @@
     <Vuex2/>
     <hr>
     <Bus2/>
+    <hr>
+    <AttrListeners v-if="isRender" :attr1="attr1" :attr2="attr2" :attr3="attr3" class="active" :changeP="changeP" @click="changeP" @xxx="changeP" />
+    <p v-text="str"></p>
   </div>
 </template>
 
@@ -35,13 +38,19 @@ import Pr from '../components/6_Provide-inject'
 import Vuex from '../components/7_vuex'
 import Vuex2 from '../components/8_vuex2'
 import Bus2 from '../components/9_bus2'
+import AttrListeners from '../components/10_$attr-$listeners'
 export default {
   data(){
     return {
       num:1,
       num1:10,
       num2:100,
-      ary:[1,2,3,4]
+      ary:[1,2,3,4],
+      attr1:100,
+      attr2:200,
+      attr3:300,
+      str:'哈哈哈',
+      isRender:true
     }
   },
   components: {
@@ -53,7 +62,8 @@ export default {
     Pr,
     Vuex,
     Vuex2,
-    Bus2
+    Bus2,
+    AttrListeners
   },
   methods: {
     add(){
@@ -62,6 +72,9 @@ export default {
     tongbu(){
       this.num2 += 100
       bus.$emit('tongbu',this.num2)
+    },
+    changeP(){
+      this.str = '呵呵呵'
     }
   },
   mounted() {
@@ -77,6 +90,17 @@ export default {
     console.log(this.$refs.R.num) // 可以拿到子组件实例的上的属性
     this.$refs.R.add() // 可以调用子组件实例上的方法
     console.log(this.$refs.box) // 可以拿到对应的元素
+
+
+    setTimeout(_ => { // 数据变化视图必然更改，但是子组件不会再次进行渲染，所以要用v-if控制渲染
+      this.isRender =  false
+      this.str = '嘻嘻嘻',
+      this.attr2 = 300,
+      this.attr3 = 400,
+      this.$nextTick(_ => { // 这样之后就会触发组件重新调用，更新数据
+        this.isRender = true
+      })
+    },1000)
   },
   created(){
     /* 

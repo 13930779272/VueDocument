@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>问题</title>
+</head>
+<body>
+  <!-- 购物车的数量只能输入数字类型 如果输入文字会自动变成数子1-->
+  <input type="text" value="1" id="txt">
+  <script>
+    txt.onkeyup = function(ev){
+      if(!/^\d+$/.test(ev.target.value)){
+        this.value = '1'
+      }
+    }
+  
+  </script>
+</body>
+</html>

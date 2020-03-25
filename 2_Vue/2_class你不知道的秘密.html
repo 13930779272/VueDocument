@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>class你不知道的秘密</title>
+  <style>
+     .active {
+      background-color: gold;
+    }
+    #box{
+      width:100px;
+      height: 100px;
+    }
+    .green{
+      background: green;
+    }
+    .red{
+      background: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="name=true" :class="{active:name}">按钮</button>
+    <button @click="name=false" :class="{active:!name}">按钮</button>
+    <div id="box" :class="{red:name,green:!name}"></div>
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    let v = new Vue({
+      el: '#app',
+      data: {
+        name: true
+      }
+    })
+  </script>
+</body>
+
+</html>

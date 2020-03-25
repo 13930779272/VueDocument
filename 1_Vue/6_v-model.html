@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>v-model</title>
+</head>
+
+<body>
+  <div id="app">
+    <!--  -->
+    <!-- v-model.trim:去前后空格 -->
+    <!-- <input type="text" v-model.trim="val" @input="fn"> -->
+    <!-- 一般获取出来的是字符串， v-model.number会把数字转化为数字类型的-->
+    <!-- <input type="text" v-model.number="val" @input="fn"> -->
+    <!-- .lazy转化为onchange事件 -->
+    <!-- <input type="text" v-model.lazy="val" @input="fn"> -->
+    <!-- <input type="text" v-model="val" @change="fn"> -->
+    <hr>
+    {{val}}
+
+    <!-- 监控checked的值 单个复选框，绑定到布尔值：-->
+    <input type="checkbox" v-model="b">
+    <hr>
+    <p>{{b}}</p>
+    <!-- 多个复选框，绑定到同一个数组： -->
+    <input type="checkbox" name="" id="" v-model="ary" value="lyp">lyp
+    <input type="checkbox" name="" id="" v-model="ary" value="bw">bw
+    <input type="checkbox" name="" id="" v-model="ary" value="hj">hj
+    <p>{{ary}}</p>
+
+    <!-- 单选按钮绑定到布尔值 -->
+    男:<input type="radio" name="" id="" v-model="num" value="0">
+    女:<input type="radio" name="" id="" v-model="num" value="1">
+    {{ary2[num]}}
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+   /*
+      修饰符:
+        lazy  (把oninput转成了onchange)
+        number 自动把value转成数字
+    */
+    let v = new Vue({
+      el: '#app',
+      data: {
+        val: '',
+        b: false,
+        ary: [],
+        ary2: ['男', '女'],
+        num: 0
+      },
+      methods: {
+        fn() {
+          console.log(this.val)
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue</title>
+</head>
+
+<body>
+  <!-- vue挂靠元素 -->
+  <div id="app">
+    <button>{{num}}</button>
+    <h1>{{hw}}</h1>
+    {{ary}}
+    {{obj}}
+    <hr />
+    <ul>
+      <!-- for循环 -->
+      <li v-for="(val,key) in ary">{{val}}:{{key}}</li>
+    </ul>
+  </div>
+  <!-- 引入vue.js文档 -->
+  <script src="./vue.js"></script>
+  <script>
+    let v = new Vue({
+      el:'#app',
+      data:{
+        num:0,
+        hw:'hello word',
+        ary:['你好','你不好','你不太好'],
+        obj:{name:1000}
+      }
+    })
+    setTimeout(() => {
+      v.ary.push('你要好')
+    }, 3000);
+
+  </script>
+</body>
+
+</html>

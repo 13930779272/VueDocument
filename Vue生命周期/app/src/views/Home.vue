@@ -6,25 +6,45 @@
     </ul>
     <button @click="xiaohui">销毁组件</button>
     <hr>
-    <Child @push="add" @mount="jiakong" @hook:created="hook" @hook="hook1"/>
+    <Child @push="add" @mount="jiakong" @hook:created="hook1" />
   </div>
 </template>
 
 <script>
+/* 
+  home组件跳转到public组价的生命周期过程：
+    public-beforeCreate
+    public-created
+    public-beforeMount
+    home-beforeDestory
+    home-destroyed
+    public-mounted
+  加载渲染生命周期
+    父 beforeCreate -> 父 created -> 父 beforeMount -> 子 beforeCreate -> 子 created -> 子 beforeMount -> 子 mounted -> 父 mounted
+
+  子组件更新过程
+    父 beforeUpdate -> 子 beforeUpdate -> 子 updated -> 父 updated
+
+  父组件更新过程
+    父 beforeUpdate -> 父 updated
+
+  销毁过程
+    父 beforeDestroy -> 子 beforeDestroy -> 子 destroyed -> 父 destroyed
+*/
 import Child from '../components/Child'
 export default {
   /* 
     beforeCreate：在这只有Vue的一个实例data与mothods都还没有初始化,组件实例被创建之初，组件的属性生效之前
   */
   beforeCreate() {
-    console.log(this.$data,this.add,'beforeCreate') // undefined undefined "beforeCreate"
+    console.log(this.$data,this.add,'home-beforeCreate') // undefined undefined "beforeCreate"
   },
   /* 
     此时打印data与methods都已经初始化完毕可以拿到
     组件实例已经完全创建，属性也绑定，但真实 dom 还没有生成，$el 还不可用
   */
   created(){
-    console.log(this.$data,this.add,'created')
+    console.log(this.$data,this.add,'home-created')
     this.timer = setInterval(() => {
       this.num ++
       console.log(this.num)
@@ -35,38 +55,40 @@ export default {
     在挂载开始之前被调用：相关的 render 函数首次被调用
   */
   beforeMount() {
-    console.log(this.$refs.list,this.$data,'beforeMount')
+    console.log(this.$refs.list,this.$data,'home-beforeMount')
   },
   /* 
     此时Dom可以拿到就可以进行DOM操作了
     el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子
   */
   mounted() {
-    console.log(this.$refs.list,this.$data,'mounted')
+    console.log(this.$refs.list,this.$data,'home-mounted')
   },
   /* 
     组件数据更新之前调用，发生在虚拟 DOM 打补丁之前
   */
   beforeUpdate() {
-    console.log(list.children,this.ary.length,'beforeUpdate') // [li, li, li, li, li] 6 "beforeUpdate"
+    console.log(list.children,this.ary.length,'home-beforeUpdate') // [li, li, li, li, li] 6 "beforeUpdate"
   },
   /* 
     数据更新之后调用，此时已经多了一个li
   */
   updated() {
-    console.log(list.children,this.ary.length,'updated') // [li, li, li, li, li, li] 6 "updated"
+    console.log(list.children,this.ary.length,'home-updated') // [li, li, li, li, li, li] 6 "updated"
   },
   /* 
     组件销毁前调用
   */
   beforeDestroy(){
-    console.log('beforeDestory')
+    // alert('home-beforeDestory')
+    console.log('home-beforeDestory')
   },
   /* 
     组件销毁后调用
   */
   destroyed() {
-    clearInterval(this.timer) // 此时定时器已经停止
+    console.log('home-destroyed')
+    clearInterval(this.timer,) // 此时定时器已经停止
   },
   components:{
     Child
@@ -91,11 +113,8 @@ export default {
     jiakong(){
       console.log('监控到了子组件的DOM挂载完成')
     },
-    hook(){
-      console.log('监控到了子组件的数据加载完成')
-    },
     hook1(){
-      console.log('可以传递')
+      console.log('监控到了子组件的数据加载完成')
     },
     xiaohui(){
       // $destory() 完全销毁一个实例，解绑与其他实例的连接，解绑全部指令以及事件监听器
