@@ -1,2 +1,2 @@
 # VueDocument
-Vue的关键点
+Vue文档
