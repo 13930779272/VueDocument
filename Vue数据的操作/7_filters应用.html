@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>filters练习</title>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" v-model="txt" />
+    <hr>
+    <!-- 直接对数据操作 -->
+    <!-- <span v-text="txt.replace(/\b([a-zA-Z])([a-zA-Z]+)\b/g,($0,$1,$2) => {
+      return $1.toUpperCase() + $2
+    })"></span> -->
+    <!-- 用函数操作 -->
+    <!-- <span v-text="toUp(txt)"></span> -->
+    {{txt | toUp}}
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    let vm = new Vue({
+      el: '#app',
+      data: {
+        txt: ''
+      },
+      // 这里的都是普通方法，可以在视图中调取也可以在其他函数中调取，会挂载到实例上，不能和data冲突
+      methods: {
+        toUp(txt) {
+          return txt.replace(/\b([a-zA-Z])([a-zA-Z]+)\b/g, ($0, $1, $2) => {
+            return $1.toUpperCase() + $2
+          })
+        }
+      },
+      filters:{
+        toUp(txt) {
+          return txt.replace(/\b([a-zA-Z])([a-zA-Z]+)\b/g, ($0, $1, $2) => {
+            return $1.toUpperCase() + $2
+          })
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

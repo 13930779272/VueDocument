@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>这是主页</h1>
-    <h2>This is an home page</h2>
+    <h1>这是公共页1</h1>
+    <h2>This is an public1 page</h2>
   </div>
 </template>
 

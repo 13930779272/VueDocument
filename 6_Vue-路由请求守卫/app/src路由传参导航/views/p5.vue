@@ -1,15 +1,13 @@
 <template>
   <div>
-    <h1>这是主页</h1>
-    <h2>This is an home page</h2>
+    {{nn1}}
+    {{query}}
   </div>
 </template>
 
 <script>
   export default {
-    created() {
-      console.log(this.$route)
-    },
+    props:['nn1','query']
   }
 </script>
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vue的虚拟DOM</title>
+</head>
+<body>
+  <div id="app">
+    <vote-c></vote-c>
+    <test-vue></test-vue>
+  </div>
+  <script src="./1_Vue/vue.js"></script>
+  <script>
+    Vue.component('VoteC',{
+      template:`<div class="box" id="box" index="1">
+        vue模板语法
+        <div class="text">,我是template</div>
+      </div>`
+    })
+    Vue.component('TestVue', {
+			render: h => {
+        console.dir(h)
+				return h('div', {
+					class: 'box',
+					attrs: {
+						index: 1
+					}
+				}, ["哈哈哈", h('span', {
+					class: 'text'
+				}, ["欢迎大家", h('i')])]);
+			}
+		});
+    let vm = new Vue({
+      el:'#app'
+    })
+  </script>
+</body>
+</html>

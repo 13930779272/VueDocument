@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>watch全选</title>
+</head>
+<body>
+  <div id="app">
+    <input type="checkbox" v-model="all" @click="click">全选
+    <hr>
+    <!-- {{hobbyList}} -->
+    <span v-for = "item in hobbyList">
+      <input type="checkbox" :id="item.id | handle" :value="item.val" v-model="item.checked">
+      <label :for="item.id  | handle">{{item.name}}</label>
+    </span>
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    /* 
+    
+    */
+    let vm = new Vue({
+      el:'#app',
+      data: {
+        hobbyList:[
+          {
+            id:1,
+            name:'属性一',
+            val:'one',
+            checked:false
+          },
+          {
+            id:1,
+            name:'属性二',
+            val:'one',
+            checked:true
+          },
+          {
+            id:1,
+            name:'属性三',
+            val:'one',
+            checked:false
+          },
+          {
+            id:1,
+            name:'属性四',
+            val:'one',
+            checked:false
+          }
+        ],
+        all:false
+      },
+      filters:{
+        handle(val){
+          return 'hobby'+val
+        }
+      },
+      watch:{
+        // 两个互相关联的数据不能同时都用watch进行监听，当数据组的变化引起all改变时，此时每个复选框也会发生变化
+        hobbyList:{
+          handler(){
+            this.all = this.hobbyList.every(item => item.checked)
+          },
+          deep:true
+        },
+
+        // all(){
+        //   this.hobbyList.forEach(item => {
+        //     item.checked = this.all
+        //   })
+        // }
+      },
+      methods: {
+        click(ev){
+          console.log(ev)
+          this.hobbyList.forEach(item => {
+            item.checked = ev.target.checked
+          })
+        }
+      },
+    })
+  </script>
+</body>
+</html>

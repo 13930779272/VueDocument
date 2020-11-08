@@ -1,4 +1,4 @@
-# app
+# component-slot
 
 ## Project setup
 ```
@@ -15,10 +15,10 @@ npm run serve
 npm run build
 ```
 
+### Lints and fixes files
+```
+npm run lint
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
-
-
-### vue路由的编程式导航和声明式导航
-### query和params的区别
-### 路由传参

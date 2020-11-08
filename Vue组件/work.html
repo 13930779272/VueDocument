@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <div class="iconBoxs">
+      <span>
+        <i class="el-icon-plus iconBox" @click.stop="createDialog"></i>
+        <i class="el-icon-edit-outline iconBox" @click.stop="createEdit"></i>
+        <i class="el-icon-delete iconBox" @click.stop="createDelete"></i>
+      </span>
+    </div>
+    <vuedraggable v-model="dataList" ref="treeBox" @end="updated">
+      <transition-group>
+        <div v-for="item in dataList" :key="item.id" @click="nodeClick(item)"
+          :class="{actived:id === item.id,enter:true}">
+          <p style="padding-left:20px">{{item.label}}</p>
+        </div>
+      </transition-group>
+    </vuedraggable>
+  </div>
+  <script src="./node_modules//vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el:'#app'
+    })
+  </script>
+</body>
+
+</html>

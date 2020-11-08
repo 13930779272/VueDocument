@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>watch</title>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" v-model="val" @keyup.13='add'>
+    <ul>
+      <li v-for="(item, index) in ary">
+        <input type="checkbox" v-model="item.checked">
+        <span>{{item.val}}</span>
+      </li>
+      <hr>
+      {{ary}}
+    </ul>
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    /* 
+     * computed与watch的异同点：
+     *  不同点：computed:是一上来就触发一次，数据改变再触发一次，watch:只有数据改变才会触发，还可以深度监控
+     *
+     * watch监听响应式数据的改变(监听的数据必须在的data中初始化),和set类似，只不过是computed是自己单独设置的计算属性不能和data冲突，
+     * 而watch只能监听data中的有的属性
+     * watch默认只能监听一层数据，如果有多层是监听不到的
+     * watch支持异步操作，computed的getter必须要return一个数据不支持异步操作
+    */
+    let v = new Vue({
+      el: '#app',
+      data: {
+        val: '',
+        ary: getitem()
+      },
+      methods: {
+        add() {
+          this.ary.unshift({
+            id: Date.now(),
+            val: this.val,
+            checked: false
+          });
+          this.val = ''
+        }
+      },
+      watch: {
+        // 只会监控一层数据,普通的watch监听
+        // ary(){
+        //   console.log('触发');
+        //   localStorage.setItem('data',JSON.stringify(this.ary))
+        // }
+        
+        // watch可以深度监听
+        ary: {
+          handler(val, oldVal) {
+            console.log(val)
+            console.log(oldVal)
+            localStorage.setItem('data', JSON.stringify(this.ary))
+          },
+          // 是否深度监听
+          deep: true,
+          // 立即以表达式的当前值触发回调
+          immediate: true
+        },
+      },
+    });
+
+
+    function getitem() {
+      let v = localStorage.getItem('data');
+      return v && JSON.parse(v) || [{
+        id: 0,
+        val: 'vue真的好学',
+        checked: true
+      }, {
+        id: 1,
+        val: 'vue真的简单',
+        checked: false
+      }]
+    }
+  </script>
+</body>
+
+</html>

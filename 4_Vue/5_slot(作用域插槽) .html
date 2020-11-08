@@ -13,17 +13,32 @@
     <temp :fsj="ary" v-slot:cdata="childrenData">
       <!-- vue低版本必须加上template -->
       <!-- <template v-slot:cdata="childrenData"> -->
-        <h2>我的名字叫:{{childrenData.nn}}</h2>
+        <h2>我的名字叫:{{childrenData.nm}}</h2>
         <p>我的id是:{{childrenData.id}}</p>
         <p>我的年龄是:{{childrenData.age}}</p>
       <!-- </template> -->
     </temp>
+    <temp1 :ary="ary" v-slot:hh="Cdata">
+      <h2>我的名字叫:{{Cdata.nm}}</h2>
+      <p>我的ID是:{{Cdata.id}}</p>
+      <p>我的年龄是:{{Cdata.age}}</p>
+    </temp1>
   </div>
   <template id="temp">
     <div>
       <ul>
         <li v-for="(val,key) in fsj">
-          <slot name="cdata" :nn="val.nm" :id="val.id" :age="val.age"></slot>
+          <slot name="cdata" :nm="val.nm" :id="val.id" :age="val.age"></slot>
+        </li>
+      </ul>
+    </div>
+  </template>
+
+  <template id="temp1">
+    <div>
+      <ul>
+        <li v-for="item in ary">
+          <slot name="hh" :id="item.id" :nm="item.nm" :age="item.age"></slot>
         </li>
       </ul>
     </div>
@@ -51,7 +66,10 @@
       template: "#temp",
       props: ['fsj']
     }
-
+    const temp1 = {
+      template:'#temp1',
+      props:['ary']
+    }
     new Vue({
       el: '#app',
       data: {
@@ -73,7 +91,8 @@
         ]
       },
       components:{
-        temp
+        temp,
+        temp1
       }
     })
   </script>

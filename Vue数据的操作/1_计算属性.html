@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>计算属性</title>
+</head>
+
+<body>
+  <div id="box">
+    <!-- 模板内的表达式非常便利，但是设计它们的初衷是用于简单运算的。在模板中放入太多的逻辑会让模板过重且难以维护。例如： -->
+    <input type="text" v-model="val">
+    <p>{{ val.split('').reverse().join('')}}</p>
+    <p>{{ fn() }}</p>
+    <p>{{ revers }}</p>
+    <p>{{now1}}</p>
+    <p>{{now2()}}</p>
+
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    let vm = new Vue({
+      el: '#box',
+      data: {
+        val: '鹏 月 刘',
+      },
+      // 这个方法每次渲染视图都会调用
+      methods: {
+        fn() {
+          console.log('=====>methods')
+          return this.val.split('').reverse().join('');
+        },
+        // 会动态更新
+        now2(){
+          return new Date()
+        }
+      },
+      /* 
+       * 计算属性：
+       *  计算属性不是方法是一个属性一个值（不能加括号调用）会挂载到实例上与data、methods中的名不能冲突，
+       *  他的值是对应的方法返回的结果（getter函数处理的结果），
+       *  第一次获取会关联某个响应式数据，第一次获取结果后会把这个结果缓存下来
+       *  有自己的缓存处理，，后期视图重新渲染，会首先看关联的响应式数据是否发生更改，如果发生更改会重新计算，如果未更改会拿上次缓存的结果进行渲染
+       *  只有用到这个属性的时候他才会计算，否则不会计算（性能优化懒计算）
+       *  我们用computed和某个响应式数据进行关联，当响应式数据发生改变时候，computed的getter函数会重新执行，否则使用的是上一次缓存的结果。
+       *  计算属性中必须关联一个响应式数据，否则getter函数只执行一次
+       */
+      computed: {
+        revers() {
+          console.log('=====>computed')
+          return this.val.split('').reverse().join('');
+        },
+        //=>计算属性中必须要关联一个响应式数据，否则GETTER函数只执行一次
+        now1(){
+          return new Date();
+        }
+      }
+    })
+    // 从下面的代码执行看出除去视图首次渲染methods和computed各执行一次，methods还会执行五次而computed只有在关联的响应式数据更新之后才会执行一次，所以computed更加节省性能
+    let n = 0,
+      timer = null;
+    timer = setInterval(_ => {
+      n++
+      if (n > 5) {
+        clearInterval(timer)
+        return
+      }
+      if (n === 3) {
+        vm.$data.val = '刘 月 鹏'
+      }
+      // 强制进行视图更新渲染，通常情况下只有数据更新才会重新渲染，调用这个方法会强制更新
+      vm.$forceUpdate()
+    }, 1000)
+  </script>
+</body>
+
+</html>

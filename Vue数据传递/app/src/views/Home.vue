@@ -50,7 +50,8 @@ export default {
       attr2:200,
       attr3:300,
       str:'哈哈哈',
-      isRender:true
+      isRender:true,
+      timer:null
     }
   },
   components: {
@@ -101,6 +102,9 @@ export default {
         this.isRender = true
       })
     },1000)
+    this.timre = setInterval(_ => {
+      console.log('定时器')
+    },1000)
   },
   created(){
     /* 
@@ -122,8 +126,10 @@ export default {
   // }
   provide:{
     ary:[1,2,3,4]
+  },
+  beforeDestroy (){
+    clearInterval(this.timre)
   }
-
 };
 </script>
 

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>全选</title>
+</head>
+<body>
+  <div id="app">
+    <input type="checkbox" v-model="all">全选
+    <hr>
+    <!-- {{hobbyList}} -->
+    <span v-for = "item in hobbyList">
+      <input type="checkbox" :id="item.id | handle" :value="item.val" v-model="item.checked">
+      <label :for="item.id  | handle">{{item.name}}</label>
+    </span>
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    let vm = new Vue({
+      el:'#app',
+      data: {
+        hobbyList:[
+          {
+            id:1,
+            name:'属性一',
+            val:'one',
+            checked:false
+          },
+          {
+            id:1,
+            name:'属性二',
+            val:'one',
+            checked:true
+          },
+          {
+            id:1,
+            name:'属性三',
+            val:'one',
+            checked:false
+          },
+          {
+            id:1,
+            name:'属性四',
+            val:'one',
+            checked:false
+          }
+        ],
+        
+      },
+      filters:{
+        handle(val){
+          return 'hobby'+val
+        }
+      },
+      computed: {
+        all:{
+          get(){
+            return this.hobbyList.every(item => {
+              return item.checked
+            })
+          },
+          set(val){
+            console.log(val)
+            if(val){
+              this.hobbyList.map(item => {
+                item.checked = val
+                return item
+              })
+            }else{
+              this.hobbyList.map(item => {
+                item.checked = val
+                return item
+              })
+            }
+          }
+        }
+      },
+    })
+  </script>
+</body>
+</html>

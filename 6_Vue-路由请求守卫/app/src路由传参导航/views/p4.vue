@@ -1,12 +1,13 @@
 <template>
   <div>
-    <h1>这是主页</h1>
-    <h2>This is an home page</h2>
+    <h1>这是p4</h1>
+    <h1>欢迎{{nn}}</h1>
   </div>
 </template>
 
 <script>
   export default {
+    props:['nn'],
     created() {
       console.log(this.$route)
     },

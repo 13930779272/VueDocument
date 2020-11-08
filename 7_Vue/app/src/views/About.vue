@@ -11,9 +11,19 @@
 
 <script>
   export default {
-    // created() {
-    //   console.log(this.$router)
-    // },
+    created() {
+      /*
+       * this.$router下的方法:
+       *   go(n):前进或者后退n步
+       *   back() :后退一步
+       *   forward():前进一步
+       *   push():跳转到指定的路由，实现路由切换
+       *   replace():跳转到指定的路由，实现路由切换,不能后退没有历史记录
+       *  实现编程式导航
+       */
+      console.log(this.$router)
+      console.log(this.$route === this.$router.currentRoute) // true
+    },
   }
 </script>
 
